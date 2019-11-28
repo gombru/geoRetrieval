@@ -8,7 +8,7 @@ import model
 from pylab import zeros, arange, subplots, plt, savefig
 
 # Config
-training_id = 'YFCCGEO_MCLL_2ndTr'
+training_id = 'YFCCGEO_MCLL'
 dataset = '/home/raulgomez/datasets/YFCC100M-GEO100/' # '/media/ssd2/YFCC100M-GEO100/'
 split_train = 'train.txt'
 split_val = 'val.txt'
