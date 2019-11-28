@@ -54,10 +54,10 @@ if resume:
 cudnn.benchmark = True
 
 # Data loading code (pin_memory allows better transferring of samples to GPU memory)
-train_dataset = YFCCGEO_dataset.YFCC_Dataset(
+train_dataset = YFCCGEO_dataset.YFCCGEO_dataset(
     dataset,split_train,random_crop=ImgSize,mirror=True)
 
-val_dataset = YFCCGEO_dataset.YFCC_Dataset(
+val_dataset = YFCCGEO_dataset.YFCCGEO_dataset(
     dataset, split_val,random_crop=ImgSize,mirror=False)
 
 train_loader = torch.utils.data.DataLoader(
