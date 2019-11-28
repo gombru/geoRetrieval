@@ -81,16 +81,9 @@ def validate(val_loader, model, criterion, print_freq, plot_data, gpu):
         model.eval()
 
         end = time.time()
-        for i, (image, target_indices, label) in enumerate(val_loader):
+        for i, (image, target, label) in enumerate(val_loader):
 
-              # build target vector form target indices
-            target = torch.zeros([len(target_indices), 100000], dtype=torch.float32).cuda(gpu, async=True)
-            for p in range(0,len(target_indices)):
-                target[p,target_indices[p]] = 1
-
-            # target = target.cuda(gpu, async=True)
-            target_var = torch.autograd.Variable(target).squeeze(1)
-
+            target_var = torch.autograd.Variable(target).cuda()
             image_var = torch.autograd.Variable(image)
             label = label.cuda(gpu, async=True)
 
