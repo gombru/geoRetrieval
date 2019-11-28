@@ -29,7 +29,7 @@ best_loss = 1000
 best_acc = 0
 
 # Optimizer (SGD)
-lr = 0.1 
+lr = 0.005 
 momentum = 0.9
 weight_decay = 1e-4
 

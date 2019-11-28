@@ -28,7 +28,7 @@ best_epoch = 0
 best_loss = 1000
 
 # Optimizer (SGD)
-lr = 0.005 * len(gpus) # 2*1e-2 * len(gpus)
+lr = 0.1 * len(gpus) # 2*1e-2 * len(gpus)
 momentum = 0.9
 weight_decay = 1e-4
 
