@@ -47,7 +47,7 @@ class YFCCGEO_dataset(Dataset):
 
 
     def __len__(self):
-        return len(self.img_ids)
+        return len(self.img_names)
 
     def __getitem__(self, idx):
         img_name = self.root_dir + 'img_resized/' + self.img_names[idx]
