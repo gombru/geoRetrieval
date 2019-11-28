@@ -21,7 +21,7 @@ def train(train_loader, model, criterion, optimizer, epoch, print_freq, plot_dat
     end = time.time()
     for i, (image, target, label) in enumerate(train_loader):
 
-        target_var = torch.autograd.Variable(target)
+        target_var = torch.autograd.Variable(target).cuda()
         image_var = torch.autograd.Variable(image)
         label = label.cuda(gpu, async=True)
 
