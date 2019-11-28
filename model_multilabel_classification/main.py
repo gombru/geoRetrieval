@@ -2,33 +2,34 @@ import torch.nn as nn
 import torch.backends.cudnn as cudnn
 import torch.utils.data
 import torch.utils.data.distributed
-import YFCC_dataset
+import YFCCGEO_dataset
 import train
 import model
 from pylab import zeros, arange, subplots, plt, savefig
 
 # Config
-training_id = 'YFCC_MLC_fromIN'
-dataset = '../../../hd/datasets/YFCC100M/'
+training_id = 'YFCC_MLC'
+dataset = '/home/rgomez/datasets/YFCC100M-GEO100/'
 split_train = 'train_filtered.txt'
 split_val = 'val.txt'
 
 ImgSize = 224
-gpus = [1] # [3,2,1,0]
-gpu = 1
-workers = 2 # 6 Num of data loading workers
+gpus = [0] # [3,2,1,0]
+gpu = 0
+gpu_cuda_id = 'cuda:' + str(gpu)
+workers = 6 # 6 Num of data loading workers
 epochs = 301
 start_epoch = 0 # Useful on restarts
-batch_size = 70 * len(gpus) # 70 Batch size
+batch_size = 96 * len(gpus) # 70 Batch size
 print_freq = 1 # An epoch are 60000 iterations. Print every 100: Every 40k images
-resume = dataset + 'models/saved/YFCC_ImageNet_MLC_2ndtraining_epoch_0_ValLoss_0.07.pth.tar' # None  # Path to checkpoint top resume training
+resume = None # Path to checkpoint top resume training
 plot = True
 best_epoch = 0
 best_loss = 1000
 best_acc = 0
 
 # Optimizer (SGD)
-lr = 0.3 # 2 * len(gpus) # 2 is best right now
+lr = 0.1 
 momentum = 0.9
 weight_decay = 1e-4
 
@@ -46,17 +47,17 @@ optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=momentum, weight
 if resume:
     print("Loading pretrained model")
     print("=> loading checkpoint '{}'".format(resume))
-    checkpoint = torch.load(resume, map_location={'cuda:0':'cuda:1', 'cuda:2':'cuda:1', 'cuda:3':'cuda:1'})
+    checkpoint = torch.load(resume, map_location={'cuda:0':gpu_cuda_id, 'cuda:1':gpu_cuda_id, 'cuda:2':gpu_cuda_id, 'cuda:3':gpu_cuda_id})
     model.load_state_dict(checkpoint, strict=False)
     print("Checkpoint loaded")
 
 cudnn.benchmark = True
 
 # Data loading code (pin_memory allows better transferring of samples to GPU memory)
-train_dataset = YFCC_dataset.YFCC_Dataset(
+train_dataset = YFCCGEO_dataset.YFCC_Dataset(
     dataset,split_train,random_crop=ImgSize,mirror=True)
 
-val_dataset = YFCC_dataset.YFCC_Dataset(
+val_dataset = YFCCGEO_dataset.YFCC_Dataset(
     dataset, split_val,random_crop=ImgSize,mirror=False)
 
 train_loader = torch.utils.data.DataLoader(
@@ -136,6 +137,7 @@ for epoch in range(start_epoch, epochs):
 
         # Save graph to disk
         if epoch % 1 == 0 and epoch != 0:
-            title = dataset +'/training/' + training_id + '_epoch_' + str(epoch) + '.png'
+            # title = dataset +'/training/' + training_id + '_epoch_' + str(epoch) + '.png'
+            title = dataset +'/training/' + training_id + '.png'
             savefig(title, bbox_inches='tight')
 
