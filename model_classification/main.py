@@ -8,7 +8,7 @@ import model
 from pylab import zeros, arange, subplots, plt, savefig
 
 # Config
-training_id = 'YFCCGEO_MCLL'
+training_id = 'YFCCGEO_MCLL_2ndTr'
 dataset = '/home/raulgomez/datasets/YFCC100M-GEO100/' # '/media/ssd2/YFCC100M-GEO100/'
 split_train = 'train.txt'
 split_val = 'val.txt'
@@ -22,13 +22,13 @@ epochs = 301
 start_epoch = 0 # Useful on restarts
 batch_size = 96 * len(gpus) # Batch size
 print_freq = 1 # An epoch are 60000 iterations. Print every 100: Every 40k images
-resume = None  # Path to checkpoint top resume training
+resume = dataset + 'models/' + 'YFCC_MLC_epoch_8_ValLoss_0.03.pth.tar'  # Path to checkpoint top resume training
 plot = True
 best_epoch = 0
 best_loss = 1000
 
 # Optimizer (SGD)
-lr = 0.1 * len(gpus) # 2*1e-2 * len(gpus)
+lr = 0.005 * len(gpus) # 2*1e-2 * len(gpus)
 momentum = 0.9
 weight_decay = 1e-4
 
