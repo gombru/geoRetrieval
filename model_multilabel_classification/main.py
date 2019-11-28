@@ -17,7 +17,7 @@ ImgSize = 224
 gpus = [0] # [3,2,1,0]
 gpu = 0
 gpu_cuda_id = 'cuda:' + str(gpu)
-workers = 6 # 6 Num of data loading workers
+workers = 10 # 6 Num of data loading workers
 epochs = 301
 start_epoch = 0 # Useful on restarts
 batch_size = 96 * len(gpus) # 70 Batch size
@@ -85,8 +85,8 @@ ax1.set_xlabel('epoch')
 ax1.set_ylabel('train loss (r), val loss (y)')
 ax2.set_ylabel('train prec1 (b), train prec10 (k), train prec50 (br), val prec1 (g), val prec10 (m), val prec50 (or)')
 ax2.set_autoscaley_on(False)
-ax1.set_ylim([0, 0.1])
-ax2.set_ylim([0, 20])
+ax1.set_ylim([0, 0.05])
+ax2.set_ylim([0, 100])
 
 print("Dataset and model ready. Starting training ...")
 
