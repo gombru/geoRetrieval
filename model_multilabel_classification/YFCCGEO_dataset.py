@@ -1,5 +1,4 @@
 from __future__ import print_function, division
-
 import torch
 import numpy as np
 from torch.utils.data import Dataset, DataLoader
@@ -48,10 +47,9 @@ class YFCCGEO_dataset(Dataset):
 
 
     def __len__(self):
-        return len(self.img_names)
+        return len(self.img_ids)
 
     def __getitem__(self, idx):
-
         img_name = self.root_dir + 'img_resized/' + self.img_names[idx]
 
         # Load and transform img
@@ -75,9 +73,14 @@ class YFCCGEO_dataset(Dataset):
             im_np = image_processing.PreprocessImage(im_np)
             img_tag_idx = self.tags.index('ski')
 
+        # Get target vector (multilabel classification)
+        target = np.zeros(100, dtype=np.float32)
+        target[img_tag_idx] = 1
+       
         # Build tensors
         img_tensor = torch.from_numpy(np.copy(im_np))
+        target = torch.from_numpy(target)
         label = torch.from_numpy(np.array([img_tag_idx]))
         label = label.type(torch.LongTensor)
 
-        return img_tensor, label
+        return img_tensor, target, label
