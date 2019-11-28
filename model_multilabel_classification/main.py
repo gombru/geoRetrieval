@@ -10,7 +10,7 @@ from pylab import zeros, arange, subplots, plt, savefig
 # Config
 training_id = 'YFCC_MLC'
 dataset = '/home/rgomez/datasets/YFCC100M-GEO100/'
-split_train = 'train_filtered.txt'
+split_train = 'train.txt'
 split_val = 'val.txt'
 
 ImgSize = 224
